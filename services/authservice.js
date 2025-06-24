@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
-const key = 'Swastik@2004'
-
-
+const dotenv = require("dotenv");
+dotenv.config();
+const key = process.env.KEY
 function setuser(user){
 
    return jwt.sign({

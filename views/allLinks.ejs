@@ -8,6 +8,9 @@
 <body class="bg-gray-100 min-h-screen">
     <div class="container mx-auto py-8">
         <h1 class="text-3xl font-bold mb-6 text-center">All Links</h1>
+        <div class="flex justify-end mb-4">
+            <a href="/api/addlink" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow">+ Create New Link</a>
+        </div>
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white rounded-lg shadow">
                 <thead>
@@ -16,6 +19,7 @@
                         <th class="py-3 px-4 border-b text-left">Link</th>
                         <th class="py-3 px-4 border-b text-left">Clicks</th>
                         <th class="py-3 px-4 border-b text-left">Details</th>
+                        <th class="py-3 px-4 border-b text-left">JSON</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,6 +29,7 @@
                             <td class="py-2 px-4 border-b"><a href="<%= link.link %>" target="_blank" class="text-blue-600 hover:underline"><%= link.link %></a></td>
                             <td class="py-2 px-4 border-b"><%= link.clicks.length %></td>
                             <td class="py-2 px-4 border-b"><a href="/details/<%= link.projectName %>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">View Clicks</a></td>
+                            <td class="py-2 px-4 border-b"><a href="/<%= link.projectName %>/json" target="_blank" class="bg-gray-700 text-white px-3 py-1 rounded hover:bg-gray-900">View JSON</a></td>
                         </tr>
                     <% }); %>
                 </tbody>

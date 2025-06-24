@@ -20,6 +20,7 @@ function signup(req, res) {
 //         res.cookie('token', token)
 //         res.send("signup successfull")
 //     }else(err=>{res.send("error in signup", err)})
+res.send("cant do login asks admin ie SWASTIK 😎😁")
 
 
 

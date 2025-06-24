@@ -50,24 +50,71 @@ async function redirectLink(req, res) {
 async function addLink(req, res) {
     try {
         const { link, projectName } = req.body
-        await linkModel.create({
-            link, projectName
-        })
-        res.send("link saved")
+        const linkData = await linkModel.findOne({ link })
+        if (!linkData) {
+            const newLink = await linkModel.create({
+                link, projectName
+            })
+            const generatedLink = `${req.protocol}://${req.get('host')}/${newLink.projectName}`;
+            res.render('addlink', {
+                success: 'Link generated successfully!',
+                generatedLink,
+                error: null
+            })
+        } else {
+            res.render('addlink', {
+                error: 'This link already exists!',
+                success: null,
+                generatedLink: null
+            })
+        }
     } catch (err) {
         console.error("Error in saving the link", err)
-        res.error("internal server error", err)
+        res.render('addlink', {
+            error: 'Internal server error',
+            success: null,
+            generatedLink: null
+        })
     }
 }
 
 function addlinkget(req, res) {
-   
-        res.render('addLink', { error: null });
-    
+
+    res.render('addLink', { error: null });
+
 }
 
+async function jsonDetails(req, res) {
+    try {
+        const { project } = req.params;
+        const linkData = await linkModel.findOne({ projectName: project });
+        if (!linkData) {
+            return res.status(404).send('Project not found');
+        }
+        res.json({ linkData })
+    } catch (err) { res.send("unable to find json data", err) }
 
-module.exports = { redirectLink, addLink, addlinkget }
+}
+async function linkDetails(req, res) {
+    try {
+        const { project } = req.params;
+        const linkData = await linkModel.findOne({ projectName: project });
+        if (!linkData) {
+            return res.status(404).send('Project not found');
+        }
+        res.render('clickDetails', { projectName: linkData.projectName, clicks: linkData.clicks });
+    } catch (err) { res.send("unable to find  data", err) }
+
+}
+async function getallLinks(req, res) {
+    try {
+       const allLinks = await linkModel.find({});
+        res.render('allLinks', { links: allLinks }); 
+    } catch (err) { res.status(500).send('Error fetching data');}
+
+}
+
+module.exports = { redirectLink, addLink, addlinkget, jsonDetails, linkDetails, getallLinks }
 
 
 
