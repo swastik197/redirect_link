@@ -20,7 +20,7 @@ function signup(req, res) {
 //         res.cookie('token', token)
 //         res.send("signup successfull")
 //     }else(err=>{res.send("error in signup", err)})
-res.send("cant do login asks admin ie SWASTIK 😎😁")
+res.send("cant do login asks admin ie. SWASTIK 😎😁")
 
 
 
@@ -48,7 +48,7 @@ try {
             maxAge: 86400000 // 1 day
         })
 
-        return res.redirect('/all');
+        return res.redirect('/');
     } catch (err) {
         return res.render('login', { error: "Login error: " + err.message });
     }}

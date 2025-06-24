@@ -27,7 +27,7 @@
                     <% } %>
                     <% clicks.forEach(function(click) { %>
                         <tr class="hover:bg-gray-50">
-                            <td class="py-2 px-4 border-b"><%= new Date(click.time).toLocaleString() %></td>
+                            <td class="py-2 px-4 border-b"><%= click.time %></td>
                             <td class="py-2 px-4 border-b"><%= click.ip %></td>
                             <td class="py-2 px-4 border-b"><%= click.userAgent %></td>
                             <td class="py-2 px-4 border-b"><%= click.device?.browser %></td>

@@ -28,14 +28,12 @@ async function redirectLink(req, res) {
                         time: indiaTime,
                         ip,
                         userAgent,
-
                         device: {
                             browser: req.useragent.browser,
                             os: req.useragent.os,
                             platform: req.useragent.platform,
                             isMobile: req.useragent.isMobile
-                        },
-
+                        }
                     }
                 }
             }
@@ -44,13 +42,12 @@ async function redirectLink(req, res) {
         })
         res.redirect(actualLink)
 
-
     } catch (err) {
         console.error("Error in redirectLink", err)
-        res.error("internal server error", err)
+        res.status(500).send("Internal server error")
     }
-
 }
+
 async function addLink(req, res) {
     try {
         const { link, projectName } = req.body

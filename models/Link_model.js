@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 
 const clickSchema = new mongoose.Schema({
-    time: { type: Date, default: Date.now },
+    // time: { type: Date, default: Date.now },
+    time:String,
     ip: String,
     userAgent: String,
     language: String,
