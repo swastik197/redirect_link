@@ -14,6 +14,7 @@ dotenv.config();
 connectDB(process.env.MONGO_URI)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('trust proxy', true);
 
 app.use(cors())
 app.use(cookieParser())
