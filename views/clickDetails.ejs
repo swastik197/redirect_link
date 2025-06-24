@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Click Details - <%= projectName %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto py-8">
+        <h1 class="text-2xl font-bold mb-6 text-center">Click Details for <%= projectName %></h1>
+        <a href="/all" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to All Links</a>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white rounded-lg shadow">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Time</th>
+                        <th class="py-2 px-4 border-b">IP</th>
+                        <th class="py-2 px-4 border-b">User Agent</th>
+                        <th class="py-2 px-4 border-b">Browser</th>
+                        <th class="py-2 px-4 border-b">OS</th>
+                        <th class="py-2 px-4 border-b">Platform</th>
+                        <th class="py-2 px-4 border-b">Mobile?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (clicks.length === 0) { %>
+                        <tr><td colspan="7" class="py-4 text-center text-gray-500">No clicks yet.</td></tr>
+                    <% } %>
+                    <% clicks.forEach(function(click) { %>
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-2 px-4 border-b"><%= new Date(click.time).toLocaleString() %></td>
+                            <td class="py-2 px-4 border-b"><%= click.ip %></td>
+                            <td class="py-2 px-4 border-b"><%= click.userAgent %></td>
+                            <td class="py-2 px-4 border-b"><%= click.device?.browser %></td>
+                            <td class="py-2 px-4 border-b"><%= click.device?.os %></td>
+                            <td class="py-2 px-4 border-b"><%= click.device?.platform %></td>
+                            <td class="py-2 px-4 border-b"><%= click.device?.isMobile ? 'Yes' : 'No' %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html> 
