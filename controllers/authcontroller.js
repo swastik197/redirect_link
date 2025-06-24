@@ -2,6 +2,11 @@ const authModel = require('../models/auth_model')
 const{setuser} = require('../services/authservice')
 
 
+function getLogin(req, res) {
+    res.render('login', { error: null });
+}
+
+
 function signup(req, res) {
 //     const { name, pass } = req.body
 //    const newuser = authModel.create({
@@ -27,25 +32,25 @@ try {
         const user = await authModel.findOne({ pass });
 
         if (!user) {
-            return res.status(401).send("Invalid credentials");
+            return res.render('login', { error: 'Invalid credentials' });
         }
 
         const token = setuser(user);
         if (!token) {
         
-            return res.status(500).send("Token generation failed");
+            return res.render('login', { error: 'Token generation failed' });
         }
             res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
-            maxAge: 86400000 // 1 hour
+            maxAge: 86400000 // 1 day
         })
 
-        return res.status(200).send("Login successful");
+        return res.redirect('/all');
     } catch (err) {
-        return res.status(500).send("Login error: " + err.message);
+        return res.render('login', { error: "Login error: " + err.message });
     }}
 module.exports = {
-    signup, login
+    signup, login, getLogin
 }

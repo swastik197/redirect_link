@@ -14,18 +14,19 @@ async function checkAuthentication(req, res, next){
 // next()
 try {
         const token = req.cookies.token
-        if (!token) return res.status(401).json({ error: "Token not found" })
+        if (!token) return res.redirect('/auth/login')
         
-        const verifiedToken = await getuser(token)
-        if (!verifiedToken) return res.status(401).json({ error: "Token invalid" })
+        const verifiedToken = getuser(token)
+        if (!verifiedToken) return res.redirect('/auth/login')
         
         const user = await authModel.findById(verifiedToken.id)
-        if (!user) return res.status(404).json({ error: "User not found" })
+        if (!user) return res.redirect('/auth/login')
         
+        req.user = user;
         next()
     } catch (error) {
         console.error('Token verification error:', error)
-        res.status(401).json({ error: "Authentication failed" })
+        res.redirect('/auth/login')
     }
 }
 module.exports = {checkAuthentication}

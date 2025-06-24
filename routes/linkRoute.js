@@ -1,16 +1,12 @@
 const express = require('express')
 const linkModel = require('../models/Link_model')
-const { redirectLink, addLink, linkDetailsJson } = require('../controllers/linkcontroller')
+const { redirectLink, addLink, addlinkget } = require('../controllers/linkcontroller')
 const {checkAuthentication} = require('../middlewares/checkAuth')
-const route = express.Router()
+const router = express.Router()
 
-route.get('/',checkAuthentication, (req, res) => {
-    const count = 0
-    res.send("hello user")
-    console.log(count + 1)
-})
 
-route.get('/all',checkAuthentication, async (req, res) => {
+
+router.get('/',checkAuthentication, async (req, res) => {
     try {
         const allLinks = await linkModel.find({});
         res.render('allLinks', { links: allLinks });
@@ -19,13 +15,11 @@ route.get('/all',checkAuthentication, async (req, res) => {
     }
 });
 
-route.get('/:project', redirectLink)
+router.get('/:project', redirectLink)
 
-route.get('/:project/data',linkDetailsJson )
+router.route('/api/addlink',checkAuthentication,).post( addLink).get(addlinkget)
 
-route.post('/postData',addLink )
-
-route.get('/details/:project', async (req, res) => {
+router.get('/details/:project',checkAuthentication ,async (req, res) => {
     const { project } = req.params;
     const linkData = await linkModel.findOne({ projectName: project });
     if (!linkData) {
@@ -35,4 +29,4 @@ route.get('/details/:project', async (req, res) => {
 });
 
 
-module.exports = route
+module.exports = router

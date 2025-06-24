@@ -60,24 +60,14 @@ async function addLink(req, res) {
     }
 }
 
-async function linkDetailsJson(req, res) {
-    try {
-        const { project } = req.params
-        const linkData = await linkModel.findOne({ projectName: project })
-        if (!linkData) {
-            return res.status(404).send('Project not found');
-        }
+function addlinkget(req, res) {
    
-        
-        res.json({ linkData})
-    } catch (err) {
-        console.error("Error in fetching link details", err)
-        res.error("internal server error", err)
-    }
+        res.render('addLink', { error: null });
+    
 }
 
 
-module.exports = { redirectLink, addLink, linkDetailsJson }
+module.exports = { redirectLink, addLink, addlinkget }
 
 
 
