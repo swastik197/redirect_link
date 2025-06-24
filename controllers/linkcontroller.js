@@ -15,13 +15,17 @@ async function redirectLink(req, res) {
         if (!actualLink) {
             return res.status(404).send('link not found in database')
         }
+        const date = new Date();
 
+        const indiaTime = date.toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+        });
         await linkModel.updateOne(
             { _id: linkData._id },
             {
                 $push: {
                     clicks: {
-                        time: new Date(),
+                        time: indiaTime,
                         ip,
                         userAgent,
 
@@ -79,9 +83,7 @@ async function addLink(req, res) {
 }
 
 function addlinkget(req, res) {
-
-    res.render('addLink', { error: null });
-
+    res.render('addlink', { error: null, success: null, generatedLink: null });
 }
 
 async function jsonDetails(req, res) {
@@ -108,9 +110,9 @@ async function linkDetails(req, res) {
 }
 async function getallLinks(req, res) {
     try {
-       const allLinks = await linkModel.find({});
-        res.render('allLinks', { links: allLinks }); 
-    } catch (err) { res.status(500).send('Error fetching data');}
+        const allLinks = await linkModel.find({});
+        res.render('allLinks', { links: allLinks });
+    } catch (err) { res.status(500).send('Error fetching data'); }
 
 }
 
